@@ -1,13 +1,14 @@
 package com.yejunyu.coupon.template.controller;
 
 import com.yejunyu.coupon.template.api.beans.CouponTemplateInfo;
+import com.yejunyu.coupon.template.api.beans.request.PagedCouponTemplateInfo;
+import com.yejunyu.coupon.template.api.beans.request.TemplateSearchParams;
 import com.yejunyu.coupon.template.service.CouponTemplateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 /**
  * @Author: yejunyu
@@ -24,6 +25,7 @@ public class CouponTemplateController {
 
     /**
      * 创建优惠券模板
+     *
      * @param request
      * @return
      */
@@ -35,6 +37,7 @@ public class CouponTemplateController {
 
     /**
      * clone优惠券模板
+     *
      * @param templateId
      * @return
      */
@@ -45,7 +48,8 @@ public class CouponTemplateController {
     }
 
     /**
-     * clone优惠券模板
+     * 获取优惠券模板
+     *
      * @param id
      * @return
      */
@@ -53,5 +57,17 @@ public class CouponTemplateController {
     public CouponTemplateInfo getTemplate(@RequestParam("id") Long id) {
         log.info("get coupon template: data={}", id);
         return couponTemplateService.loadTemplateInfo(id);
+    }
+
+    /**
+     * 搜索模板(分页)
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("/search")
+    public PagedCouponTemplateInfo search(@Valid @RequestBody TemplateSearchParams request) {
+        log.info("search coupon template: data={}", request);
+        return couponTemplateService.search(request);
     }
 }

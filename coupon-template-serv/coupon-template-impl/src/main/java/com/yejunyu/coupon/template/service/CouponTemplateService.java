@@ -1,6 +1,8 @@
 package com.yejunyu.coupon.template.service;
 
 import com.yejunyu.coupon.template.api.beans.CouponTemplateInfo;
+import com.yejunyu.coupon.template.api.beans.request.PagedCouponTemplateInfo;
+import com.yejunyu.coupon.template.api.beans.request.TemplateSearchParams;
 
 import java.util.Collection;
 import java.util.Map;
@@ -50,4 +52,12 @@ public interface CouponTemplateService {
      * @return
      */
     Map<Long, CouponTemplateInfo> getTemplateInfoMap(Collection<Long> ids);
+
+    /**
+     * 搜索模板(分页)
+     *
+     * @param request
+     * @return
+     */
+    PagedCouponTemplateInfo search(TemplateSearchParams request);
 }
