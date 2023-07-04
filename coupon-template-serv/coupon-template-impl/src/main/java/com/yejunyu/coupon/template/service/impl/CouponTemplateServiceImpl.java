@@ -10,6 +10,10 @@ import com.yejunyu.coupon.template.dao.entity.CouponTemplate;
 import com.yejunyu.coupon.template.service.CouponTemplateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,7 +47,7 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
         }
         CouponTemplate template = CouponTemplate.builder()
                 .name(request.getName())
-                .desc(request.getDesc())
+                .description(request.getDescription())
                 .shopId(request.getShopId())
                 .type(CouponType.convert(request.getType()))
                 .rule(request.getRule())
@@ -89,6 +93,22 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
 
     @Override
     public PagedCouponTemplateInfo search(TemplateSearchParams request) {
-        return null;
+        CouponTemplate example = CouponTemplate.builder()
+                .shopId(request.getShopId())
+                .name(request.getName())
+                .type(CouponType.convert(request.getType()))
+                .available(request.getAvailable())
+                .build();
+        // 分页
+        Pageable page = PageRequest.of(request.getPage(), request.getPageSize());
+        Page<CouponTemplate> result = couponTemplateDao.findAll(Example.of(example), page);
+
+        List<CouponTemplateInfo> list = result.map(CouponTemplateConverter::convertToCouponTemplateInfo).toList();
+
+        return PagedCouponTemplateInfo.builder()
+                .templateInfoList(list)
+                .page(request.getPage())
+                .total(result.getTotalElements())
+                .build();
     }
 }

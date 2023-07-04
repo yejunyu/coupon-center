@@ -1,5 +1,6 @@
 package com.yejunyu.coupon.template.api.beans;
 
+import com.alibaba.fastjson.JSON;
 import com.yejunyu.coupon.template.api.beans.rules.TemplateRule;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,7 @@ public class CouponTemplateInfo {
     private String name;
     // 优惠券描述
     @NotNull
-    private String desc;
+    private String description;
     /**
      * 优惠券类型
      *
@@ -41,4 +42,28 @@ public class CouponTemplateInfo {
     // 当前模板是否可用
     private Boolean available;
 
+    public static void main(String[] args) {
+//        String json = """
+//                {\\n    \\"name\\":\\"全场满10减1元\\",\\n    \\"desc\\":\\"满减券描述，每人限制最多10张\\",\\n    \\"type\\": \\"1\\",\\n    \\"total\\":100,\\n    \\"available\\": true,\\n    \\"rule\\":{\\n        \\"limitation\\":10,\\n        \\"discount\\": {\\n            \\"quota\\":10,\\n            \\"threshold\\":1000\\n        }\\n    }\\n}
+//                """;
+//        String s = json.replaceAll("\\\\", "");
+//        String s1 = s.replaceAll("n", "");
+//        System.out.println(s1);
+        String json = "{\n" +
+                "    \"name\": \"全场满10减1元\",\n" +
+                "    \"description\": \"满减券描述，每人限制最多10张\",\n" +
+                "    \"type\": \"1\",\n" +
+                "    \"total\": 100,\n" +
+                "    \"available\": true,\n" +
+                "    \"rule\": {\n" +
+                "        \"limitation\": 10,\n" +
+                "        \"discount\": {\n" +
+                "            \"quota\": 10,\n" +
+                "            \"threshold\": 1000\n" +
+                "        }\n" +
+                "    }\n" +
+                "}";
+        CouponTemplateInfo couponTemplateInfo = JSON.parseObject(json, CouponTemplateInfo.class);
+        System.out.println(couponTemplateInfo);
+    }
 }

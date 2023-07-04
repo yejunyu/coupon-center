@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * @Author: yejunyu
@@ -31,20 +33,20 @@ public class CouponTemplateController {
      */
     @PostMapping("/addTemplate")
     public CouponTemplateInfo addTemplate(@Valid @RequestBody CouponTemplateInfo request) {
-        log.info("create coupon template: data={}", request);
+        log.info("CouponTemplateController#addTemplate: data={}", request);
         return couponTemplateService.createTemplate(request);
     }
 
     /**
      * clone优惠券模板
      *
-     * @param templateId
+     * @param id
      * @return
      */
     @PostMapping("/cloneTemplate")
-    public CouponTemplateInfo cloneTemplate(@RequestParam("id") Long templateId) {
-        log.info("clone coupon template: data={}", templateId);
-        return couponTemplateService.cloneTemplate(templateId);
+    public CouponTemplateInfo cloneTemplate(@RequestParam Long id) {
+        log.info("CouponTemplateController#cloneTemplate: data={}", id);
+        return couponTemplateService.cloneTemplate(id);
     }
 
     /**
@@ -54,9 +56,21 @@ public class CouponTemplateController {
      * @return
      */
     @PostMapping("/getTemplate")
-    public CouponTemplateInfo getTemplate(@RequestParam("id") Long id) {
-        log.info("get coupon template: data={}", id);
+    public CouponTemplateInfo getTemplate(@RequestParam Long id) {
+        log.info("CouponTemplateController#getTemplate: data={}", id);
         return couponTemplateService.loadTemplateInfo(id);
+    }
+
+    /**
+     * 获取优惠券模板(批量)
+     *
+     * @param ids
+     * @return
+     */
+    @PostMapping("/getBatch")
+    public Map<Long, CouponTemplateInfo> getTemplateBatch(@RequestParam Collection<Long> ids) {
+        log.info("CouponTemplateController#getTemplateBatch: data={}", ids);
+        return couponTemplateService.getTemplateInfoMap(ids);
     }
 
     /**
@@ -67,7 +81,19 @@ public class CouponTemplateController {
      */
     @PostMapping("/search")
     public PagedCouponTemplateInfo search(@Valid @RequestBody TemplateSearchParams request) {
-        log.info("search coupon template: data={}", request);
+        log.info("CouponTemplateController#search: data={}", request);
         return couponTemplateService.search(request);
+    }
+
+    /**
+     * 搜索模板(分页)
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/deleteTemplate")
+    public void deleteTemplate(@RequestParam Long id) {
+        log.info("CouponTemplateController#deleteTemplate: data={}", id);
+        couponTemplateService.deleteTemplate(id);
     }
 }

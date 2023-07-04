@@ -22,5 +22,4 @@ public class Discount {
     private Long quota;
     // 订单最低要到多少钱才能使用优惠券折扣，单位为分
     private Long threshold;
-
 }

@@ -16,7 +16,7 @@ public class CouponTemplateConverter {
         return CouponTemplateInfo.builder()
                 .id(template.getId())
                 .name(template.getName())
-                .desc(template.getDesc())
+                .description(template.getDescription())
                 .type(template.getType().getCode())
                 .shopId(template.getShopId())
                 .available(template.getAvailable())

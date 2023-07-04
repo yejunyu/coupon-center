@@ -12,7 +12,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -45,8 +44,8 @@ public class CouponTemplate {
     private String name;
 
     // 优惠券描述
-    @Column(name = "desc", nullable = false)
-    private String desc;
+    @Column(name = "description", nullable = false)
+    private String description;
     /**
      * 优惠券类型
      *

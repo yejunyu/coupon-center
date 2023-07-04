@@ -22,5 +22,5 @@ public class PagedCouponTemplateInfo {
     // 第几页数据
     public int page;
     // 总数据量
-    public int total;
+    public long total;
 }
