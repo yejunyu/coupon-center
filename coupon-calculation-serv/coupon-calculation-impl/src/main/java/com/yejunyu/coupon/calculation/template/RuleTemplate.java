@@ -1,4 +1,4 @@
-package com.yejunyu.coupon.calculation;
+package com.yejunyu.coupon.calculation.template;
 
 import com.yejunyu.coupon.calculation.api.beans.ShoppingCart;
 
