@@ -2,6 +2,7 @@ package com.yejunyu.coupon.calculation.template.impl;
 
 import com.yejunyu.coupon.calculation.template.AbstractRuleTemplate;
 import com.yejunyu.coupon.calculation.template.RuleTemplate;
+import com.yejunyu.coupon.template.api.enums.CouponType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -17,5 +18,10 @@ public class MoneyOffTemplate extends AbstractRuleTemplate implements RuleTempla
     protected Long calculateNewPrice(Long orderTotalAmount, Long shopTotalAmount, Long quota) {
         long benefitAmount = shopTotalAmount < quota ? shopTotalAmount : quota;
         return orderTotalAmount - benefitAmount;
+    }
+
+    @Override
+    public CouponType getCouponType() {
+        return CouponType.MONEY_OFF;
     }
 }

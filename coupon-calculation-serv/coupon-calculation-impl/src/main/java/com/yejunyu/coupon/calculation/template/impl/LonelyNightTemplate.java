@@ -2,6 +2,7 @@ package com.yejunyu.coupon.calculation.template.impl;
 
 import com.yejunyu.coupon.calculation.template.AbstractRuleTemplate;
 import com.yejunyu.coupon.calculation.template.RuleTemplate;
+import com.yejunyu.coupon.template.api.enums.CouponType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -24,5 +25,10 @@ public class LonelyNightTemplate extends AbstractRuleTemplate implements RuleTem
         }
         long benefitAmount = shopTotalAmount < quota ? shopTotalAmount : quota;
         return orderTotalAmount - benefitAmount;
+    }
+
+    @Override
+    public CouponType getCouponType() {
+        return CouponType.LONELY_NIGHT_MONEY_OFF;
     }
 }

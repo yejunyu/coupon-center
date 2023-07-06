@@ -2,6 +2,7 @@ package com.yejunyu.coupon.calculation.template.impl;
 
 import com.yejunyu.coupon.calculation.template.AbstractRuleTemplate;
 import com.yejunyu.coupon.calculation.template.RuleTemplate;
+import com.yejunyu.coupon.template.api.enums.CouponType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -22,5 +23,10 @@ public class DiscountTemplate extends AbstractRuleTemplate implements RuleTempla
         }
         long benefitAmount = convertToDecimal((double) (shopTotalAmount * (100 - quota)) / 100);
         return orderTotalAmount - benefitAmount;
+    }
+
+    @Override
+    public CouponType getCouponType() {
+        return CouponType.DISCOUNT;
     }
 }

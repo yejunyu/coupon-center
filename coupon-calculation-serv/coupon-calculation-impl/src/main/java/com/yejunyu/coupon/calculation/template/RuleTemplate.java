@@ -1,6 +1,7 @@
 package com.yejunyu.coupon.calculation.template;
 
 import com.yejunyu.coupon.calculation.api.beans.ShoppingCart;
+import com.yejunyu.coupon.template.api.enums.CouponType;
 
 /**
  * @Author: yejunyu
@@ -9,10 +10,17 @@ import com.yejunyu.coupon.calculation.api.beans.ShoppingCart;
  **/
 public interface RuleTemplate {
     /**
+     * 模板对应的优惠券类型
+     *
+     * @return
+     */
+    CouponType getCouponType();
+
+    /**
      * 根据订单计算加优惠券后的最终价格
      *
      * @param order
      * @return
      */
-    ShoppingCart calculation(ShoppingCart order);
+    ShoppingCart calculate(ShoppingCart order);
 }

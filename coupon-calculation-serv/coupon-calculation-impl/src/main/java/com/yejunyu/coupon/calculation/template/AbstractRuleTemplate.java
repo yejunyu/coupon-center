@@ -22,7 +22,7 @@ import static java.util.stream.Collectors.summingLong;
 @Slf4j
 public abstract class AbstractRuleTemplate implements RuleTemplate {
     @Override
-    public ShoppingCart calculation(ShoppingCart order) {
+    public ShoppingCart calculate(ShoppingCart order) {
         // 获取订单总价
         Long orderTotalAmount = getTotalPrice(order.getProducts());
         // 获取以shopId为维度的总价统计
@@ -61,12 +61,12 @@ public abstract class AbstractRuleTemplate implements RuleTemplate {
         return 1L;
     }
 
-    private Map<Long, Long> getTotalPriceGroupByShop(List<Product> products) {
+    protected Map<Long, Long> getTotalPriceGroupByShop(List<Product> products) {
         return products.stream()
                 .collect(groupingBy(Product::getShopId, summingLong(p -> p.getPrice() * p.getCount())));
     }
 
-    private Long getTotalPrice(List<Product> products) {
+    protected Long getTotalPrice(List<Product> products) {
         return products.stream()
                 .mapToLong(p -> p.getPrice() * p.getCount())
                 .sum();

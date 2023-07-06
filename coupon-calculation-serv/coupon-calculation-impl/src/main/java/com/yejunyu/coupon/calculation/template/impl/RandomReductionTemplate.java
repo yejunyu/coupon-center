@@ -2,6 +2,7 @@ package com.yejunyu.coupon.calculation.template.impl;
 
 import com.yejunyu.coupon.calculation.template.AbstractRuleTemplate;
 import com.yejunyu.coupon.calculation.template.RuleTemplate;
+import com.yejunyu.coupon.template.api.enums.CouponType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -20,5 +21,10 @@ public class RandomReductionTemplate extends AbstractRuleTemplate implements Rul
         long maxBenefitAmount = Math.min(quota, shopTotalAmount);
         long benefitAmount = new Random().nextLong(maxBenefitAmount);
         return orderTotalAmount - benefitAmount;
+    }
+
+    @Override
+    public CouponType getCouponType() {
+        return CouponType.RANDOM_DISCOUNT;
     }
 }
