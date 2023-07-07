@@ -22,7 +22,7 @@ public class CouponInfo {
 
     private Long shopId;
 
-    private Long userId;
+    private Long uid;
 
     private Integer status;
 

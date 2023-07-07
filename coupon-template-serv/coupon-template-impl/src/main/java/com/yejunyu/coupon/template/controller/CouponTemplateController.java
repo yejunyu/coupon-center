@@ -1,8 +1,8 @@
 package com.yejunyu.coupon.template.controller;
 
 import com.yejunyu.coupon.template.api.beans.CouponTemplateInfo;
-import com.yejunyu.coupon.template.api.beans.request.PagedCouponTemplateInfo;
-import com.yejunyu.coupon.template.api.beans.request.TemplateSearchParams;
+import com.yejunyu.coupon.template.api.beans.request.PagedCouponTemplateInfoReq;
+import com.yejunyu.coupon.template.api.beans.request.TemplateSearchReq;
 import com.yejunyu.coupon.template.service.CouponTemplateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -80,7 +80,7 @@ public class CouponTemplateController {
      * @return
      */
     @PostMapping("/search")
-    public PagedCouponTemplateInfo search(@Valid @RequestBody TemplateSearchParams request) {
+    public PagedCouponTemplateInfoReq search(@Valid @RequestBody TemplateSearchReq request) {
         log.info("CouponTemplateController#search: data={}", request);
         return couponTemplateService.search(request);
     }

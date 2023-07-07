@@ -17,6 +17,6 @@ public class TemplateRule {
     private Discount discount;
     // 每个人最多可以领券数量
     private Integer limitation;
-    // 过期时间
+    // 过期时间 时间戳(s)
     private Long deadline;
 }

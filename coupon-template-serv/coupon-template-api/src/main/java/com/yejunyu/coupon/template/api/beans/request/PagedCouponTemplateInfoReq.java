@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PagedCouponTemplateInfo {
+public class PagedCouponTemplateInfoReq {
     public List<CouponTemplateInfo> templateInfoList;
     // 第几页数据
     public int page;

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TemplateSearchParams {
+public class TemplateSearchReq {
 
     private Long id;
     private String name;

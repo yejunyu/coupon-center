@@ -1,8 +1,8 @@
 package com.yejunyu.coupon.template.service.impl;
 
 import com.yejunyu.coupon.template.api.beans.CouponTemplateInfo;
-import com.yejunyu.coupon.template.api.beans.request.PagedCouponTemplateInfo;
-import com.yejunyu.coupon.template.api.beans.request.TemplateSearchParams;
+import com.yejunyu.coupon.template.api.beans.request.PagedCouponTemplateInfoReq;
+import com.yejunyu.coupon.template.api.beans.request.TemplateSearchReq;
 import com.yejunyu.coupon.template.api.enums.CouponType;
 import com.yejunyu.coupon.template.converter.CouponTemplateConverter;
 import com.yejunyu.coupon.template.dao.CouponTemplateDao;
@@ -92,7 +92,7 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
     }
 
     @Override
-    public PagedCouponTemplateInfo search(TemplateSearchParams request) {
+    public PagedCouponTemplateInfoReq search(TemplateSearchReq request) {
         CouponTemplate example = CouponTemplate.builder()
                 .shopId(request.getShopId())
                 .name(request.getName())
@@ -105,7 +105,7 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
 
         List<CouponTemplateInfo> list = result.map(CouponTemplateConverter::convertToCouponTemplateInfo).toList();
 
-        return PagedCouponTemplateInfo.builder()
+        return PagedCouponTemplateInfoReq.builder()
                 .templateInfoList(list)
                 .page(request.getPage())
                 .total(result.getTotalElements())

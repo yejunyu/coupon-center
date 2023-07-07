@@ -19,7 +19,7 @@ public class RandomReductionTemplate extends AbstractRuleTemplate implements Rul
     @Override
     protected Long calculateNewPrice(Long orderTotalAmount, Long shopTotalAmount, Long quota) {
         long maxBenefitAmount = Math.min(quota, shopTotalAmount);
-        long benefitAmount = new Random().nextLong(maxBenefitAmount);
+        long benefitAmount = new Random().nextInt((int) maxBenefitAmount);
         return orderTotalAmount - benefitAmount;
     }
 
