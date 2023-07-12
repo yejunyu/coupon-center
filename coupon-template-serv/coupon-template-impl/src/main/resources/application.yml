@@ -29,3 +29,26 @@ spring:
         format_sql: true
         show_sql: true
     open-in-view: false
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.16.30.95:8848,172.16.30.95:8849
+        service: ${spring.application.name}
+        # 心跳都是毫秒为单位
+        heart-beat-interval: 5000
+        heart-beat-timeout: 20000
+        # 元数据部分,自己可以随意定制
+        metadata:
+          mydata: abc
+          # 客户端在启动时是否读取本地配置项(一个文件)来获取服务列表
+          # 注：推荐该值为false，若改成true。则客户端会在本地的一个
+          # 文件中保存服务信息，当下次宕机启动时，会优先读取本地的配置对外提供服务。
+        naming-load-cache-at-start: false
+        # 命名空间ID，Nacos通过不同的命名空间来区分不同的环境，进行数据隔离
+        namespace: dev
+        cluster-name: Cluster-A
+        # [注意]两个服务如果存在上下游调用关系，必须配置相同的group才能发起访问
+        group: myGroup
+        # 向注册中心注册服务，默认为true
+        # 如果只消费服务，不作为服务提供方，倒是可以设置成false，减少开销
+        register-enabled: true
