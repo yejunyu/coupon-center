@@ -18,6 +18,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.annotation.Resource;
@@ -46,7 +47,7 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
         CouponTemplateInfo couponTemplateInfo = clientBuilder.build()
                 .post()
                 .uri("http://coupon-template-serv/template/getTemplate")
-                .attribute("id", request.getCouponTemplateId())
+                .body(BodyInserters.fromFormData("id", String.valueOf(request.getCouponTemplateId())))
                 .retrieve()
                 .bodyToMono(CouponTemplateInfo.class)
                 .block();
