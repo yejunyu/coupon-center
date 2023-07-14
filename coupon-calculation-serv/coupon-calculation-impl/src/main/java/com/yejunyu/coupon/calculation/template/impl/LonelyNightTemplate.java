@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 public class LonelyNightTemplate extends AbstractRuleTemplate implements RuleTemplate {
     @Override
     protected Long calculateNewPrice(Long orderTotalAmount, Long shopTotalAmount, Long quota) {
+        log.info("calculateNewPrice orderTotalAmount={},shopTotalAmount={},quota={}", orderTotalAmount, shopTotalAmount, quota);
         int hour = LocalDateTime.now().getHour();
         if (hour >= 22 || hour < 2) {
             quota *= 2;

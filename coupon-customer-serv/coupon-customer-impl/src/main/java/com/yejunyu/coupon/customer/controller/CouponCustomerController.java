@@ -39,8 +39,8 @@ public class CouponCustomerController {
         return customerService.placeOrder(shoppingCart);
     }
 
-    @PostMapping("/simulateOrderPrice")
-    public SimulationResponse simulateOrderPrice(@Valid @RequestBody SimulationOrder order) {
+    @PostMapping("/simulateOrder")
+    public SimulationResponse simulateOrder(@Valid @RequestBody SimulationOrder order) {
         log.info("CouponCustomerController#simulateOrderPrice request={}", order);
         return customerService.simulateOrderPrice(order);
     }

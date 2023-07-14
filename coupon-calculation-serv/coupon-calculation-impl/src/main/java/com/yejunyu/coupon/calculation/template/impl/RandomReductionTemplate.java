@@ -18,6 +18,7 @@ import java.util.Random;
 public class RandomReductionTemplate extends AbstractRuleTemplate implements RuleTemplate {
     @Override
     protected Long calculateNewPrice(Long orderTotalAmount, Long shopTotalAmount, Long quota) {
+        log.info("calculateNewPrice orderTotalAmount={},shopTotalAmount={},quota={}", orderTotalAmount, shopTotalAmount, quota);
         long maxBenefitAmount = Math.min(quota, shopTotalAmount);
         long benefitAmount = new Random().nextInt((int) maxBenefitAmount);
         return orderTotalAmount - benefitAmount;

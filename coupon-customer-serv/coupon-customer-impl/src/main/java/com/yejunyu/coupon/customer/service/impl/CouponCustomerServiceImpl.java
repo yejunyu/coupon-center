@@ -26,6 +26,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author: yejunyu
@@ -44,13 +45,7 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
     @Override
     public Coupon requestCoupon(CouponReq request) {
 //        CouponTemplateInfo couponTemplateInfo = templateService.loadTemplateInfo(request.getCouponTemplateId());
-        CouponTemplateInfo couponTemplateInfo = clientBuilder.build()
-                .post()
-                .uri("http://coupon-template-serv/template/getTemplate")
-                .body(BodyInserters.fromFormData("id", String.valueOf(request.getCouponTemplateId())))
-                .retrieve()
-                .bodyToMono(CouponTemplateInfo.class)
-                .block();
+        CouponTemplateInfo couponTemplateInfo = loadTemplateInfo(request.getCouponTemplateId());
 
         // 模板不存在
         if (couponTemplateInfo == null) {
@@ -61,7 +56,8 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
         LocalDateTime now = LocalDateTime.now();
         long epochSecond = now.toEpochSecond(ZoneOffset.ofHours(8));
         TemplateRule rule = couponTemplateInfo.getRule();
-        if ((rule != null && epochSecond > rule.getDeadline()) || !couponTemplateInfo.getAvailable()) {
+        if ((rule != null && epochSecond > Optional.ofNullable(rule.getDeadline()).orElse(Long.MAX_VALUE))
+                || !couponTemplateInfo.getAvailable()) {
             log.error("template is not available id={}", request.getCouponTemplateId());
             throw new IllegalArgumentException("template is unavailable");
         }
@@ -99,13 +95,7 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
                     .build();
             coupon = couponDao.findAll(Example.of(example)).stream().findFirst().orElseThrow(() -> new RuntimeException("coupon not found"));
             CouponInfo couponInfo = CouponConverter.convertToCouponInfo(coupon);
-            CouponTemplateInfo couponTemplateInfo = clientBuilder.build()
-                    .post()
-                    .uri("http://coupon-template-serv/template/getTemplate")
-                    .attribute("id", coupon.getTemplateId())
-                    .retrieve()
-                    .bodyToMono(CouponTemplateInfo.class)
-                    .block();
+            CouponTemplateInfo couponTemplateInfo = loadTemplateInfo(couponInfo.getTemplateId());
             couponInfo.setTemplate(couponTemplateInfo);
             cart.setCouponInfos(Collections.singletonList(couponInfo));
         }
@@ -137,6 +127,7 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
         List<Coupon> coupons = couponDao.findAllById(order.getCouponIds());
         for (Coupon coupon : coupons) {
             CouponInfo couponInfo = CouponConverter.convertToCouponInfo(coupon);
+            couponInfo.setTemplate(loadTemplateInfo(couponInfo.getTemplateId()));
             couponInfos.add(couponInfo);
         }
         order.setCouponInfos(couponInfos);
@@ -167,17 +158,32 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
                 .status(CouponStatus.convert(request.getCouponStatus()))
                 .build();
         List<Coupon> couponList = couponDao.findAll(Example.of(coupon));
-        List<Long> templateIds = couponList.stream().map(Coupon::getTemplateId).toList();
+        String templateIds = couponList.stream()
+                .map(Coupon::getTemplateId)
+                .map(String::valueOf)
+                .distinct()
+                .collect(Collectors.joining(","));
+
 //        Map<Long, CouponTemplateInfo> templateInfoMap = templateService.getTemplateInfoMap(templateIds);
         Map<Long, CouponTemplateInfo> templateInfoMap = clientBuilder.build()
                 .post()
                 .uri("http://coupon-template-serv/template/getBatch")
-                .attribute("ids", templateIds)
+                .body(BodyInserters.fromFormData("ids", templateIds))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Map<Long, CouponTemplateInfo>>() {
                 })
                 .block();
         couponList.forEach(c -> c.setCouponTemplateInfo(templateInfoMap.get(c.getTemplateId())));
         return couponList.stream().map(CouponConverter::convertToCouponInfo).toList();
+    }
+
+    private CouponTemplateInfo loadTemplateInfo(Long templateId) {
+        return clientBuilder.build()
+                .post()
+                .uri("http://coupon-template-serv/template/getTemplate")
+                .body(BodyInserters.fromFormData("id", String.valueOf(templateId)))
+                .retrieve()
+                .bodyToMono(CouponTemplateInfo.class)
+                .block();
     }
 }

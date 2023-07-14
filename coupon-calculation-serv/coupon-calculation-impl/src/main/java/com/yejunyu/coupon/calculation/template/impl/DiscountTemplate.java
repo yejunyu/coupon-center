@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class DiscountTemplate extends AbstractRuleTemplate implements RuleTemplate {
     @Override
     protected Long calculateNewPrice(Long orderTotalAmount, Long shopTotalAmount, Long quota) {
+        log.info("calculateNewPrice orderTotalAmount={},shopTotalAmount={},quota={}", orderTotalAmount, shopTotalAmount, quota);
         // 校验
         if (quota > 100 || quota <= 0) {
             log.error("DiscountTemplate#calculateNewPrice quota 有误");

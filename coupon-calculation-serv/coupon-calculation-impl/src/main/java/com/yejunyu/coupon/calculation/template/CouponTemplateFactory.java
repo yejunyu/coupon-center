@@ -43,6 +43,9 @@ public class CouponTemplateFactory {
         }
         // 获取优惠券类型
         CouponTemplateInfo template = order.getCouponInfos().get(0).getTemplate();
+        if (template == null) {
+            return dummyTemplate;
+        }
         return ruleTemplateMap.getOrDefault(template.getType(), dummyTemplate);
     }
 

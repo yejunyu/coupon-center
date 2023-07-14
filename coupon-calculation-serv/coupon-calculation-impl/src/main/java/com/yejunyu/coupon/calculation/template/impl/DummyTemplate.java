@@ -30,6 +30,7 @@ public class DummyTemplate extends AbstractRuleTemplate implements RuleTemplate 
 
     @Override
     protected Long calculateNewPrice(Long orderTotalAmount, Long shopTotalAmount, Long quota) {
+        log.info("calculateNewPrice orderTotalAmount={},shopTotalAmount={},quota={}", orderTotalAmount, shopTotalAmount, quota);
         return orderTotalAmount;
     }
 }
