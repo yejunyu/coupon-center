@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = {"com.yejunyu.coupon"})
 @EnableFeignClients(basePackages = {"com.yejunyu.coupon.customer.feign"})
 public class CustomerApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(CustomerApplication.class, args);
     }

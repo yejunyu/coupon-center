@@ -1,5 +1,6 @@
 package com.yejunyu.coupon.customer.feign;
 
+import com.yejunyu.coupon.TemplateServiceFallbackFactory;
 import com.yejunyu.coupon.template.api.beans.CouponTemplateInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,8 @@ import java.util.Map;
  * @Date: Created in 2023/7/20
  * @Description: TODO
  **/
-@FeignClient(value = "coupon-template-serv", path = "/template")
+@FeignClient(value = "coupon-template-serv", path = "/template",
+        fallbackFactory = TemplateServiceFallbackFactory.class)
 public interface TemplateService {
 
     /**
