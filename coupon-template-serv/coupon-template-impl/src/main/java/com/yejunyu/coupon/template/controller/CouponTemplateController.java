@@ -1,5 +1,8 @@
 package com.yejunyu.coupon.template.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.google.common.collect.Maps;
 import com.yejunyu.coupon.template.api.beans.CouponTemplateInfo;
 import com.yejunyu.coupon.template.api.beans.request.PagedCouponTemplateInfoReq;
 import com.yejunyu.coupon.template.api.beans.request.TemplateSearchReq;
@@ -56,6 +59,7 @@ public class CouponTemplateController {
      * @return
      */
     @PostMapping("/getTemplate")
+    @SentinelResource(value = "getTemplate")
     public CouponTemplateInfo getTemplate(@RequestParam Long id) {
         log.info("CouponTemplateController#getTemplate: data={}", id);
         return couponTemplateService.loadTemplateInfo(id);
@@ -68,9 +72,15 @@ public class CouponTemplateController {
      * @return
      */
     @PostMapping("/getBatch")
+    @SentinelResource(value = "getTemplateBatch", blockHandler = "getTemplateBatchBlock")
     public Map<Long, CouponTemplateInfo> getTemplateBatch(@RequestParam Collection<Long> ids) {
         log.info("CouponTemplateController#getTemplateBatch: data={}", ids);
         return couponTemplateService.getTemplateInfoMap(ids);
+    }
+
+    public Map<Long, CouponTemplateInfo> getTemplateBatchBlock(@RequestParam Collection<Long> ids, BlockException exception) {
+        log.info("接口被限流", exception);
+        return Maps.newHashMap();
     }
 
     /**

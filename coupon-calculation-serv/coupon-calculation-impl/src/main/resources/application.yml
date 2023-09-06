@@ -7,13 +7,13 @@ spring:
   application:
     name: coupon-calculation-serv
   cloud:
-    sentinel:
-      transport:
-        port: 8719
-        dashboard: localhost:8080
+#    sentinel:
+    #      transport:
+    #        port: 8719
+    #        dashboard: localhost:8080
     nacos:
       discovery:
-#        server-addr: 172.16.30.95:8848,172.16.30.95:8849
+        #        server-addr: 172.16.30.95:8848,172.16.30.95:8849
         server-addr: 172.16.30.95:8848
         service: ${spring.application.name}
         # 心跳都是毫秒为单位
