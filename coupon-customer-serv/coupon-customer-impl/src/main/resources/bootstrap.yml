@@ -4,13 +4,14 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 172.16.30.95:8848,172.16.30.95:8849
+#        server-addr: 172.16.30.95:8848,172.16.30.95:8849
+        server-addr: 172.16.30.95:8848
         file-extension: yml
         # prefix: 文件名前缀，默认是spring.application.name
         # 如果没有指定命令空间，则默认命令空间为PUBLIC
         namespace: dev
         # 如果没有配置Group，则默认值为DEFAULT_GROUP
-        group: myGroup
+        group: DEFAULT_GROUP
         # 从Nacos读取配置项的超时时间
         timeout: 5000
         # 长轮训超时时间

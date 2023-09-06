@@ -1,5 +1,5 @@
 server:
-  port: 20009
+  port: 20000
 spring:
   application:
     name: coupon-template-serv
@@ -36,7 +36,8 @@ spring:
         dashboard: localhost:8080
     nacos:
       discovery:
-        server-addr: 172.16.30.95:8848,172.16.30.95:8849
+        #        server-addr: 172.16.30.95:8848,172.16.30.95:8849
+        server-addr: 172.16.30.95:8848
         service: ${spring.application.name}
         # 心跳都是毫秒为单位
         heart-beat-interval: 5001

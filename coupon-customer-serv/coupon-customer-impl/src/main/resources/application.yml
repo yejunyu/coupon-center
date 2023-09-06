@@ -32,7 +32,8 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 172.16.30.95:8848,172.16.30.95:8849
+#        server-addr: 172.16.30.95:8848,172.16.30.95:8849
+        server-addr: 172.16.30.95:8848
         service: ${spring.application.name}
         # 心跳都是毫秒为单位
         heart-beat-interval: 5001
@@ -67,5 +68,5 @@ feign:
         read-timeout: 5000
       # 针对特定服务
       coupon-template-serv:
-        connect-timeout: 100
-        read-timeout: 100
+        connect-timeout: 1000
+        read-timeout: 1000
