@@ -49,10 +49,10 @@
         </dependency>
 
         <!-- Actuator 对微服务端点进行管理和配置监控 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

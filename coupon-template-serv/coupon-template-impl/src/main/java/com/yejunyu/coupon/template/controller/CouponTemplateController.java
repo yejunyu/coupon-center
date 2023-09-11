@@ -72,14 +72,24 @@ public class CouponTemplateController {
      * @return
      */
     @PostMapping("/getBatch")
-    @SentinelResource(value = "getTemplateBatch", blockHandler = "getTemplateBatchBlock")
+    @SentinelResource(value = "getTemplateBatch",
+            fallback = "getTemplateBatchFallback",
+            blockHandler = "getTemplateBatchBlock")
     public Map<Long, CouponTemplateInfo> getTemplateBatch(@RequestParam Collection<Long> ids) {
         log.info("CouponTemplateController#getTemplateBatch: data={}", ids);
         return couponTemplateService.getTemplateInfoMap(ids);
     }
 
+    //如果你不想把降级方法定义在当前 Class 中，而是想新建一个 Class 来统一管理这些降级
+//逻辑，那么你可以通过 SentinelResource 注解的 fallbackClass 属性指定一个保存降级逻
+//辑的 Class
+    public Map<Long, CouponTemplateInfo> getTemplateBatchFallback(@RequestParam Collection<Long> ids) {
+        log.info("接口被限流,接口抛出除block异常外的异常时走此方法");
+        return Maps.newHashMap();
+    }
+
     public Map<Long, CouponTemplateInfo> getTemplateBatchBlock(@RequestParam Collection<Long> ids, BlockException exception) {
-        log.info("接口被限流", exception);
+        log.info("接口被限流,接口抛出block异常时走此方法", exception);
         return Maps.newHashMap();
     }
 
