@@ -1,6 +1,6 @@
 package com.yejunyu.coupon.customer.feign;
 
-import com.yejunyu.coupon.TemplateServiceFallbackFactory;
+import com.yejunyu.coupon.customer.TemplateServiceFallbackFactory;
 import com.yejunyu.coupon.template.api.beans.CouponTemplateInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

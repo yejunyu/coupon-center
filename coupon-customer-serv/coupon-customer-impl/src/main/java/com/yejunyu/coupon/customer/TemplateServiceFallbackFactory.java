@@ -1,4 +1,4 @@
-package com.yejunyu.coupon;
+package com.yejunyu.coupon.customer;
 
 import com.yejunyu.coupon.customer.feign.TemplateService;
 import com.yejunyu.coupon.template.api.beans.CouponTemplateInfo;
