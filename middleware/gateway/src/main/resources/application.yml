@@ -1,0 +1,54 @@
+spring:
+  redis:
+    host: localhost
+    port: 6379
+  sleuth:
+    sampler:
+      # 采样率的概率，100%采样
+      probability: 1.0
+      # 每秒采样数字最高为100
+      rate: 1000
+  zipkin:
+    rabbitmq:
+      addresses: 127.0.0.1:5672
+      queue: zipkin
+    sender:
+      type: rabbit
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.16.30.95:8848
+        service: ${spring.application.name}
+        # 心跳都是毫秒为单位
+        heart-beat-interval: 5000
+        heart-beat-timeout: 20000
+        namespace: dev
+        cluster-name: Cluster-A
+        group: myGroup
+        register-enabled: true
+    gateway:
+      discovery:
+        # 创建默认路由，以"/服务名称/接口地址"的格式规则进行转发
+        # Nacos服务名称本来就是小写，但Eureka默认大写
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      # 跨域配置
+      globalcors:
+        cors-configurations:
+          '[/**]':
+          # 授信地址列表
+          allowed-origins:
+            - "http://localhost:20000"
+            - "https://localhost:20002"
+          # cookie, authorization认证信息
+          expose-headers: "*"
+          allowed-methods: "*"
+          allow-credentials: true
+          allowed-headers: "*"
+          # 浏览器缓存时间
+          max-age: 1000
+  application:
+    name: coupon-gateway
+server:
+  port: 30000
