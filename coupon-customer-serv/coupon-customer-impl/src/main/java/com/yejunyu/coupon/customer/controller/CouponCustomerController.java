@@ -6,6 +6,7 @@ import com.yejunyu.coupon.calculation.api.beans.SimulationResponse;
 import com.yejunyu.coupon.customer.api.beans.request.CouponReq;
 import com.yejunyu.coupon.customer.api.beans.request.SearchCouponReq;
 import com.yejunyu.coupon.customer.dao.entity.Coupon;
+import com.yejunyu.coupon.customer.event.CouponProducer;
 import com.yejunyu.coupon.customer.service.CouponCustomerService;
 import com.yejunyu.coupon.template.api.beans.CouponInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,8 @@ import java.util.List;
 public class CouponCustomerController {
     @Resource
     private CouponCustomerService customerService;
+    @Resource
+    private CouponProducer couponProducer;
 
     @Value("${disableCouponRequest:false}")
     private Boolean disableCoupon;
@@ -42,6 +45,16 @@ public class CouponCustomerController {
             return null;
         }
         return customerService.requestCoupon(request);
+    }
+
+    @PostMapping("/requestCouponEvent")
+    public void requestCouponEvent(@Valid @RequestBody CouponReq request) {
+        log.info("CouponCustomerController#requestCouponEvent request={}", request);
+        if (disableCoupon) {
+            log.info("暂停领取优惠券");
+            return;
+        }
+        couponProducer.sendCoupon(request);
     }
 
     @PostMapping("/placeOrder")
@@ -60,6 +73,12 @@ public class CouponCustomerController {
     public void deleteCoupon(@RequestParam Long uid, @RequestParam Long couponId) {
         log.info("CouponCustomerController#deleteCoupon uid={},coupon={}", uid, couponId);
         customerService.deleteCoupon(uid, couponId);
+    }
+
+    @PostMapping("/deleteCouponEvent")
+    public void deleteCouponEvent(@RequestParam Long uid, @RequestParam Long couponId) {
+        log.info("CouponCustomerController#deleteCouponEvent uid={},coupon={}", uid, couponId);
+        couponProducer.deleteCoupon(uid, couponId);
     }
 
     @PostMapping("/findCoupon")
