@@ -97,6 +97,35 @@ spring:
           binder: my-rabbit
           # 消费者组，同一组只能消费一次,不设置group就会成为广播消息
           group: add-coupon-group
+          consumer:
+            # 如果最大尝试次数为1，即不重试
+            # 默认是做3次尝试
+            max-attempts: 3
+            # 两次重试之间的初始间隔
+            back-off-initial-interval: 2000
+            # 重试最大间隔
+            back-off-max-interval: 10000
+            # 每次重试后，间隔时间乘以的系数
+            back-off-multiplier: 2
+            # 如果某个异常你不想重试，写在这里
+        #            retryable-exceptions:
+        #              java.lang.IllegalArgumentException: false
+        # 延迟发券 - producer
+        addCouponDelay-out-0:
+          destination: request-coupon-delayed-topic
+          content-type: application/json
+          binder: my-rabbit
+        # 延迟发券 - Consumer
+        addCouponDelay-in-0:
+          destination: request-coupon-delayed-topic
+          content-type: application/json
+          # 消费组，同一个组内只能被消费一次
+          group: add-coupon-group
+          binder: my-rabbit
+          consumer:
+            # 如果最大尝试次数为1，即不重试
+            # 默认是做3次尝试
+            max-attempts: 1
         deleteCoupon-out-0:
           destination: delete-coupon-topic
           content-type: text/plain
@@ -108,8 +137,21 @@ spring:
           binder: my-rabbit
           # 消费者组，同一组只能消费一次
           group: delete-coupon-group
+          consumer:
+            max-attempts: 1
       function:
-        definition: addCoupon;deleteCoupon
+        definition: addCoupon;deleteCoupon;addCouponDelay
+      rabbit:
+        bindings:
+          addCouponDelay-out-0:
+            producer:
+              delayed-exchange: true
+          addCouponDelay-in-0:
+            consumer:
+              delayed-exchange: true
+          deleteCoupon-in-0:
+            consumer:
+              auto-bind-dlq: true
 
 logging:
   level:

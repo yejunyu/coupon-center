@@ -155,6 +155,13 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
         couponDao.save(coupon);
     }
 
+//    @ServiceActivator(inputChannel = "delete-coupon-topic.delete-coupon-group.errors")
+//    public void deleteCouponFallback(ErrorMessage errorMessage) throws Exception {
+//        log.info("consumer error:{}", errorMessage);
+//        // 后面实现自己的降级逻辑
+//
+//    }
+
     @Override
     public List<CouponInfo> findCoupon(SearchCouponReq request) {
         Coupon coupon = Coupon.builder()
