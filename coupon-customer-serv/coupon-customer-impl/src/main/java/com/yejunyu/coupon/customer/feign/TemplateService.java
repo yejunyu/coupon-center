@@ -35,4 +35,7 @@ public interface TemplateService {
      */
     @PostMapping("/getBatch")
     Map<Long, CouponTemplateInfo> getTemplateBatch(@RequestParam Collection<Long> ids);
+
+    @PostMapping("/deleteTemplate")
+    void deleteTemplate(@RequestParam Long id);
 }

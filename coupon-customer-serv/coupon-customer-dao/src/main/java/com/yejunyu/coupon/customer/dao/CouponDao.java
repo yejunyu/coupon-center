@@ -1,7 +1,11 @@
 package com.yejunyu.coupon.customer.dao;
 
+import com.yejunyu.coupon.customer.api.beans.enums.CouponStatus;
 import com.yejunyu.coupon.customer.dao.entity.Coupon;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -26,4 +30,8 @@ public interface CouponDao extends JpaRepository<Coupon, Long> {
      * @return
      */
     Optional<Coupon> findByIdAndUid(Long id, Long uid);
+
+    @Modifying
+    @Query("update Coupon c set c.status = :status where c.templateId = :templateId")
+    int deleteCouponInBatch(@Param("templateId") Long templateId, @Param("status") CouponStatus status);
 }

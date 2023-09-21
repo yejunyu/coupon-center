@@ -9,6 +9,7 @@ import com.yejunyu.coupon.customer.dao.entity.Coupon;
 import com.yejunyu.coupon.customer.event.CouponProducer;
 import com.yejunyu.coupon.customer.service.CouponCustomerService;
 import com.yejunyu.coupon.template.api.beans.CouponInfo;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -85,5 +86,11 @@ public class CouponCustomerController {
     public List<CouponInfo> findCoupon(@Valid @RequestBody SearchCouponReq request) {
         log.info("CouponCustomerController#findCoupon request={}", request);
         return customerService.findCoupon(request);
+    }
+
+    @DeleteMapping("template")
+    @GlobalTransactional(name = "coupon-customer-serv", rollbackFor = Exception.class)
+    public void deleteCoupon(@RequestParam("templateId") Long templateId) {
+        customerService.deleteCouponTemplate(templateId);
     }
 }

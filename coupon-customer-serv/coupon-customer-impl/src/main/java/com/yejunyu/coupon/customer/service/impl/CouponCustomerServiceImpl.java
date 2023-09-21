@@ -192,6 +192,14 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
         return couponList.stream().map(CouponConverter::convertToCouponInfo).toList();
     }
 
+    @Override
+    @Transactional
+    public void deleteCouponTemplate(Long templateId) {
+        templateService.getTemplate(templateId);
+        couponDao.deleteCouponInBatch(templateId, CouponStatus.INACTIVE);
+        throw new RuntimeException("AT分布式事务挂了");
+    }
+
 //    private CouponTemplateInfo loadTemplateInfo(Long templateId) {
 //        return clientBuilder.build()
 //                .post()

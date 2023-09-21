@@ -152,6 +152,24 @@ spring:
           deleteCoupon-in-0:
             consumer:
               auto-bind-dlq: true
+    alibaba:
+      seata:
+        tx-service-group: seata-server-group
+seata:
+  application-id: ${spring.application.name}
+  registry:
+    type: nacos
+    nacos:
+      application: seata-sever
+      server-addr: localhost:8848
+      namespace: dev
+      group: myGroup
+      cluster: default
+  service:
+    vgroup-mapping:
+      # tx-service-group 中的分组名称一定要和 seata.service.vgroup-mapping 中定义的分组名
+      #称一致，我为 seata-server-group 分组所指定的值是 default，这个值会被用来获取Seata Server 地址。
+      seata-server-group: default
 
 logging:
   level:

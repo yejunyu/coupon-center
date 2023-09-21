@@ -49,4 +49,11 @@ public interface CouponCustomerService {
      * @return
      */
     List<CouponInfo> findCoupon(SearchCouponReq request);
+
+    /**
+     * 删除模板
+     *
+     * @param templateId
+     */
+    void deleteCouponTemplate(Long templateId);
 }
